@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Phishing Awareness Demo</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;max-width:720px;margin:36px auto;padding:20px}
+    .card{border-radius:12px;padding:20px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+    h1{margin-top:0}
+    .quiz-question{margin:14px 0}
+    button{padding:10px 14px;border-radius:8px;border:0;cursor:pointer}
+    .explain{background:#f6f7fb;padding:12px;border-radius:8px;margin-top:14px}
+    a.link{word-break:break-all}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Phishing Awareness Exercise — Results</h1>
+    <p><strong>This was a harmless exercise.</strong> You clicked a link we used to teach how easy it is to be tricked. No credentials were requested or collected.</p>
+
+    <p>Why we did this: social-engineering attacks try to make people click before they think. This short quiz shows what to watch for and how to protect yourself.</p>
+
+    <hr>
+
+    <h2>Quick quiz (3 questions)</h2>
+
+    <div id="quiz">
+      <div class="quiz-question">
+        <label>1) The sender address is slightly different from the real company. This is a red flag. True or False?</label><br/>
+        <select id="q1"><option value="">-- pick --</option><option value="true">True</option><option value="false">False</option></select>
+      </div>
+
+      <div class="quiz-question">
+        <label>2) If an email asks for your password or one-time code, you should: </label><br/>
+        <select id="q2"><option value="">-- pick --</option>
+          <option value="never">Never share it</option>
+          <option value="maybe">Share if they claim to be IT</option>
+          <option value="sometimes">Share with friend</option>
+        </select>
+      </div>
+
+      <div class="quiz-question">
+        <label>3) You hover over a link and the URL looks different than the visible text. You should:</label><br/>
+        <select id="q3"><option value="">-- pick --</option>
+          <option value="dontclick">Not click and verify sender</option>
+          <option value="click">Click to see where it goes</option>
+          <option value="ignore">Forward to others</option>
+        </select>
+      </div>
+
+      <button id="submit">See my score</button>
+
+      <div id="result" class="explain" style="display:none"></div>
+    </div>
+
+    <hr>
+    <h3>Simple tips</h3>
+    <ul>
+      <li>Enable MFA (two-step verification) on important accounts.</li>
+      <li>Use a password manager (avoid reusing passwords).</li>
+      <li>Hover links on desktop or long-press on mobile to preview URLs.</li>
+      <li>Verify unexpected requests by calling a known number.</li>
+    </ul>
+
+    <p style="font-size:0.9em;color:#555">Want a live demo showing how to check email headers or enable MFA? Ask and I’ll run a short session.</p>
+  </div>
+
+  <script>
+    document.getElementById('submit').addEventListener('click', function(){
+      const a = document.getElementById('q1').value;
+      const b = document.getElementById('q2').value;
+      const c = document.getElementById('q3').value;
+      if(!a || !b || !c){ alert('Please answer all questions.'); return; }
+      let score = 0;
+      if(a === 'true') score++;
+      if(b === 'never') score++;
+      if(c === 'dontclick') score++;
+      const res = document.getElementById('result');
+      res.style.display = 'block';
+      res.innerHTML = '<strong>Your score: '+score+'/3</strong><br/><br/>' +
+        (score === 3 ? 'Nice — you spotted the red flags!' : 'Good practice: review the tips below and stay cautious.') +
+        '<hr><p><strong>Explanation:</strong><br/>' +
+        '1) Slight changes in sender addresses (e.g., paypa1@example.com) are common tricks.<br/>' +
+        '2) Never share passwords or OTPs — legit IT will not ask for them.<br/>' +
+        '3) If hover URL and visible text mismatch, don’t click — verify first.</p>';
+    });
+  </script>
+</body>
+</html>
